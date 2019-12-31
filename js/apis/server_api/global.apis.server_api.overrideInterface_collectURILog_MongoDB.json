@@ -1,0 +1,7 @@
+[
+	/*/
+	@ "check_session"
+		/member/member_session/checkSeccion
+	//*/
+	"check_session"
+]

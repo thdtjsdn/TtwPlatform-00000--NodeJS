@@ -1,0 +1,1 @@
+!function(e,n){global.b2link.response.setHeaders__b2ker(n),global.b2link.response.send_200_True(e,n)}();

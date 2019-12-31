@@ -1,0 +1,353 @@
+//----------------------------------------------------------------------------------------------------;
+var fileNm = "/js-File/router/file/single_sync/upload_readAsArrayBuffer.js";
+if( console ) console.log( "[ S ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;
+
+/*/
+{fs.WriteStream} : {
+	"_writableState" : {
+		"objectMode" : false,
+		"highWaterMark" : 16384,
+		"needDrain" : true,
+		"ending" : false,
+		"ended" : false,
+		"finished" : false,
+		"decodeStrings" : true,
+		"defaultEncoding" : "utf8",
+		"length" : 531984,
+		"writing" : true,
+		"corked" : 0,
+		"sync" : false,
+		"bufferProcessing" : false,
+		"writelen" : 531984,
+		"bufferedRequest" : null,
+		"lastBufferedRequest" : null,
+		"pendingcb" : 1,
+		"prefinished" : false,
+		"errorEmitted" : false,
+		"bufferedRequestCount" : 0,
+		"corkedRequestsFree" : {
+			"next" : null,
+			"entry" : null
+		}
+	},
+	"writable" : true,
+	"domain" : null,
+	"_events" : {
+		"finish" : [
+			null,
+			null
+		]
+	},
+	"_eventsCount" : 2,
+	"path" : "D:\\sukjune_js_util\\httpServer_csj\\upload\\1506046134923_MediaCreationTool.exe",
+	"fd" : 7,
+	"flags" : "w",
+	"mode" : 438,
+	"autoClose" : true,
+	"bytesWritten" : 17825792
+}
+//*/
+
+//----------------------------------------------------------------------------------------------------;
+
+/**
+ * 업로드에 이용되는 파일정보를 저장하는 구조체;
+ * @property {Object}
+ * <code>
+	{
+		"::1_60299_1506046134922" : {
+			, "_storeItemKey" : "::1_60299_1506046134922"
+			, "fileNm" : "MediaCreationTool.exe"
+			, "id" : "MediaCreationTool.exe_1506046132708"
+			, "isEnd" : 1
+			, "offset" : "17"
+			, "saved_fileNm" : "1506046134923_MediaCreationTool.exe"
+			, "totalBytes" : "18357776"
+			, "total_offset" : "17"
+			, "ws" : {fs.WriteStream}
+		}
+
+		, "::1_60299_1506046134923" : {}
+		, ...
+	}
+ * </code>
+ */
+var _store = {};
+
+//----------------------------------------------------------------------------------------------------;
+
+/**
+ * storeItem을 새롭게 생성한다.
+ * @function
+ * @param {String} storeItemKey
+ * @param {Object} d Query From URL
+ * <code>
+	{
+		_storeItemKey : {String}
+		, ...
+	}
+ * </code>
+  * @return {Object} storeItem
+ */
+var _createStoreItem = function( d )
+{
+	var storeItem = _store[ d._storeItemKey ] = {};
+	return storeItem;
+};
+
+/**
+ * storeItem의 WriteStream을 생성한다.
+ * @function
+ * @param {Object} storeItem
+ * @param {Object} d Query From URL
+ * <code>
+	{
+		_storeItemKey : {String}
+		, ...
+	}
+ * </code>
+ * @param {http.ClientRequest} req
+ * @param {http.ClientResponse} res
+ */
+var _createStoreItem__WriteStream = function( storeItem, d, req, res )
+{
+	var path =  "./file/upload/" + global.b2link.STATIC.CONFIG.URL.SCODE + "/";
+
+	//{fs.WriteStream}을 생성한다.;
+	storeItem.ws = global.REQUIRES.fs.createWriteStream( path + storeItem.fileNm_Save );
+
+	var _removeListeners = function()
+	{
+		storeItem.ws.removeListener( "close", _evt_close );
+		storeItem.ws.removeListener( "error", _evt_error );
+		storeItem.ws.removeListener( "finish", _evt_finish );
+		_evt_close = null;
+		_evt_error = null;
+		_evt_finish = null;
+	};
+
+	var _evt_finish = function( e ){
+		_removeListeners();
+		global.TtwLog.timeStamp( "[ FINISH ] - " + storeItem.fileNm_Save + " - " + storeItem.offset + " / " + storeItem.total_offset );
+	};
+
+	var _evt_close = function( e ){
+		global.TtwLog.log( "[ CLOSE ] - " + e );
+		_removeListeners();
+		if( e ) console.log( e );
+	};
+
+	var _evt_error = function( e ){
+		_removeListeners();
+		global.TtwLog.error( "[ ERROR ] - " + e );
+
+		//Client에 Error를 전송한다;
+		global.b2link.response.send_200_False__ErrorLog( req, res, d, e );
+	};
+
+	//{fs.WriteStream}에 EventListeners를 추가한다;
+	storeItem.ws.on( "close", _evt_close );
+	storeItem.ws.on( "error", _evt_error );
+	storeItem.ws.on( "finish", _evt_finish );
+};
+
+/**
+ * storeItem의 정보와 객체를 제거한다
+ * @function
+ * @param {String} storeItemKey
+ */
+var _dispose_StoreItem = function( storeItemKey )
+{
+	var storeItem = _store[ storeItemKey ];
+		storeItem.ws.end();
+
+	//...;
+
+	global.TtwLog.timeStamp( "[ DELETE ] - File Upload StoreItem : " + storeItem.fileNm_Save + " - " + storeItem.offset + " / " + storeItem.total_offset );
+
+	delete _store[ storeItemKey ];
+};
+
+//----------------------------------------------------------------------------------------------------;
+
+/**
+ * storeItem 정보를 셋팅한다.
+ * @function
+ * @param {Object} storeItem
+ * <code>
+	{
+	}
+ * </code>
+ * @param {Object} d Query From URL
+ * <code>
+	{
+		_storeItemKey : {String}
+		, ...
+	}
+ * </code>
+ */
+var _setStoreItem = function( storeItem, d )
+{
+	storeItem._storeItemKey = d._storeItemKey;
+	storeItem.fileNm = d.fileNm;
+	storeItem.fileNm_Save = Date.now() + "_" + d.fileNm;
+	storeItem.id = d.id;
+	storeItem.isEnd = 0;
+	storeItem.total_offset = d.total_offset;
+	storeItem.totalBytes = d.totalBytes;
+};
+
+//----------------------------------------------------------------------------------------------------;
+
+/**
+ * @property {String}
+ */
+//var _query = global.b2link.fs.getDBJS( global.router.file.PATH.single_sync + "upload.dbjs" );
+
+/**
+ *
+ * @function
+ * @param {http.ClientRequest} req
+ * <code>
+	{
+
+	}
+ * </code>
+ *
+ * @param {http.ClientResponse} res
+ * <code>
+	{
+
+	}
+ * </code>
+ *
+ * @example
+ * <code>
+	http://localhost:port/file/single_sync/upload_readAsArrayBuffer?_storeItemKey=1506046739595&id=electron-api.json_1506046739595&fileNm=electron-api.json&totalBytes=624043&offset=0&total_offset=0
+	http://localhost:port/file/single_sync/upload_readAsArrayBuffer?
+		_storeItemKey=1506046739595
+		&id=electron-api.json_1506046739595
+		&fileNm=electron-api.json
+		&totalBytes=624043
+		&offset=0
+		&total_offset=0
+* </code>
+*/
+(function( req, res ){
+	global.TtwLog.timeStamp( "- [ S ] - file/single_sync/upload_readAsArrayBuffer():void----------" );
+
+	//var q = global.b2link.url.getQueryFromURL( req.url );//URL to Query Object;
+	var q = global.b2link.url.getQueryFromURL_Decode( req.url );//URL to Query Object;
+
+	//ClientRequest에 포함되어온 Session을 인증 후 콜백 함수를 실행한다.;
+	global.b2link.request.get__checkSessionToSessionServer( req, res, q.sid, function(){
+
+		var chunkDatas = {};
+		var tb;//Target Buffer;
+
+		//Client로 부터 데이터를 전송 받는 이벤트;
+		//일부러 느리게 처리되게 한 로직;
+		//Server 메모리 사용률 낮추기 위함;
+		//single_async를 만들때 로직 변경하면 됨;
+		req.on( "data", function( chunk ){
+
+			//확인하기 - 송선우 - 20171103_1711 - len을 Key 값을 하기엔 위험할듯;
+			var len = Number( req.headers[ "content-length" ] );
+				//console.log( "len : " + len );
+
+			if( !chunkDatas[ len ] ) chunkDatas[ len ] = { b : new Buffer( len ), i : 0 };
+
+			//Target Buffer;
+			tb = chunkDatas[ len ];
+
+			try
+			{
+				var i=0, iLen=chunk.byteLength;
+				for( ; i<iLen; ++i )
+				{
+					tb.b.writeUInt8( chunk[ i ], tb.i );
+					++tb.i;
+				}
+			}
+			catch( e )
+			{
+				//Client에 Error를 전송한다;
+				global.b2link.response.send_200_False__ErrorLog( req, res, q, e );
+				debugger;
+				return;
+			}
+		});
+		//*/
+
+		//Client로 부터 데이터 전송 완료 이벤트;
+		req.on( "end", function(){
+
+			//storeItem을 가져온다.;
+			var storeItem = _store[ q._storeItemKey ];
+
+			//storeItem이 없을시 생성한다 - File 업로드 첫번째;
+			if( !_store[ q._storeItemKey ] )
+			{
+				//storeItem을 새롭게 생성한다.;
+				storeItem = _createStoreItem( q );
+
+				//storeItem 정보를 셋팅한다.;
+				_setStoreItem( storeItem, q );
+
+				//storeItem의 WriteStream을 생성한다.;
+				_createStoreItem__WriteStream( storeItem, q, req, res );
+			}
+
+			//--------------------------------------------------;
+			try
+			{
+				storeItem.ws.write( tb.b, function( error ){
+					if( error )
+					{
+						global.TtwLog.error( "[ ERROR ] - " + error );
+						//Client에 Error를 전송한다;
+						global.b2link.response.send_200_False__ErrorLog( req, res, q, error );
+						debugger;
+						return;
+					}
+				});
+			}
+			catch( e )
+			{
+				global.TtwLog.error( "[ ERROR ] - " + e );
+				//Client에 Error를 전송한다;
+				global.b2link.response.send_200_False__ErrorLog( req, res, q, e );
+				debugger;
+				return;
+			}
+			//--------------------------------------------------;
+
+
+			//--------------------------------------------------;
+			//storeItem offset 갱신;
+			storeItem.offset = q.offset;
+				global.TtwLog.timeStamp( "[ UPLOADING ] - File Upload : " + storeItem.fileNm_Save + " - " + storeItem.offset + " / " + storeItem.total_offset );
+
+			//File Size로 업로드 완료 체크;
+			if( storeItem.total_offset == q.offset )
+			{
+				global.TtwLog.timeStamp( "[ COMPLETE ] - File Upload : " + storeItem.fileNm_Save + " - " + storeItem.offset + " / " + storeItem.total_offset );
+				storeItem.isEnd = 1;
+			}
+
+			//Client에 생성 / 갱신된 storeItem 정보를 보낸다;
+			global.b2link.response.send_200_String( req, res, JSON.stringify( storeItem ) );
+
+			//File 업로드 완료시 후처리;
+			if( 1 == storeItem.isEnd )
+			{
+				//storeItem의 정보와 객체를 제거한다;
+				_dispose_StoreItem( q._storeItemKey );
+			}
+			//--------------------------------------------------;
+		});
+	})
+
+	global.TtwLog.timeStamp( "- [ E ] - file/single_sync/upload_readAsArrayBuffer():void----------" );
+});

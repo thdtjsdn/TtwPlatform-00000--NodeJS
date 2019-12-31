@@ -1,0 +1,51 @@
+var d = {
+	"_id" : "<!=nm_col=!>"
+
+	//이 Collection의 명세;
+	, "description" : ""
+
+	//이 Collection을 참조하는 Collections - Database Name And Collection Name;
+	, "dereference" : [
+	]
+
+	//이 Collection을 참조하는 Collections - Collection Name;
+	, "dereference_collection" : [
+	]
+
+	//이 Collection을 참조하는 Database;
+	, "dereference_database" : [
+	]
+
+	//이 Collection이 참조하는 Collections - Database Name And Collection Name;
+	, "reference" : [
+	]
+
+	//이 Collection이 참조하는 Collections - Collection Name;
+	, "reference_collection" : [
+	]
+
+	//이 Collection이 참조하는 Database;
+	, "reference_database" : [
+	]
+
+	//이 Collection에서 검색에 사용되는 Field;
+	, "search_field" : [
+		//작성예제;
+		//{;
+		//	"property" : "_ids$member.register";
+		//	, "label" : "등록 요청자";
+		//	, "label_cn" : "";
+		//	, "label_kr" : "등록 요청자";
+		//	, "label_us" : "";
+		//};
+	]
+
+	//--------------------------------------------------;
+
+	//이 Collection의 Properties;
+	, "properties" : <!=document=!>
+};
+
+//----------------------------------------------------------------------------------------------------;
+
+db.getSiblingDB( "_schema" ).administrator.insert( d );

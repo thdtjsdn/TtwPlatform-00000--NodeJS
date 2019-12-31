@@ -1,0 +1,141 @@
+//----------------------------------------------------------------------------------------------------;
+var fileNm = "/js-File/router/file/single_sync/upload_textAsDataURL.js";
+if( console ) console.log( "[ S ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;
+
+/*/
+{fs.WriteStream} : {
+	"_writableState": {
+		"objectMode": false,
+		"highWaterMark": 16384,
+		"needDrain": true,
+		"ending": false,
+		"ended": false,
+		"finished": false,
+		"decodeStrings": true,
+		"defaultEncoding": "utf8",
+		"length": 531984,
+		"writing": true,
+		"corked": 0,
+		"sync": false,
+		"bufferProcessing": false,
+		"writelen": 531984,
+		"bufferedRequest": null,
+		"lastBufferedRequest": null,
+		"pendingcb": 1,
+		"prefinished": false,
+		"errorEmitted": false,
+		"bufferedRequestCount": 0,
+		"corkedRequestsFree": {
+			"next": null,
+			"entry": null
+		}
+	},
+	"writable": true,
+	"domain": null,
+	"_events": {
+		"finish": [
+			null,
+			null
+		]
+	},
+	"_eventsCount": 2,
+	"path": "D:\\sukjune_js_util\\httpServer_csj\\upload\\1506046134923_MediaCreationTool.exe",
+	"fd": 7,
+	"flags": "w",
+	"mode": 438,
+	"autoClose": true,
+	"bytesWritten": 17825792
+}
+//*/
+
+//----------------------------------------------------------------------------------------------------;
+
+/**
+ * 업로드에 이용되는 파일정보를 저장하는 구조체;
+ * @property {Object}
+ * <code>
+	{
+		_storeItemKey : "::1_60299_1506046134922"
+		, fileNm : "MediaCreationTool.exe"
+		, id : "MediaCreationTool.exe_1506046132708"
+		, totalBytes : "18357776"
+	}
+ * </code>
+ */
+var _store = {};
+
+//----------------------------------------------------------------------------------------------------;
+
+/**
+ * @property {String}
+ */
+//var _query = global.b2link.fs.getDBJS( global.router.file.PATH.single_sync + "upload.dbjs" );
+
+/**
+ *
+ *
+ * @function
+ * @param {http.ClientRequest} req
+ * <code>
+	{
+
+	}
+ * </code>
+ *
+ * @param {http.ClientResponse} res
+ * <code>
+	{
+
+	}
+ * </code>
+ *
+ * @example
+ * <code>
+	http://localhost:port/file/single_sync/upload_textAsDataURL?_storeItemKey=345345345&file_id=transaction_blueprint.xlsx_1506048942477&fileNm=transaction_blueprint.xlsx&totalBytes=18016
+	http://localhost:port/file/single_sync/upload_textAsDataURL?
+		_storeItemKey=345345345
+		&file_id=transaction_blueprint.xlsx_1506048942477
+		&fileNm=transaction_blueprint.xlsx
+		&totalBytes=18016
+* </code>
+*/
+(function( req, res ){
+	global.TtwLog.timeStamp( "- [ S ] - file/single_sync/upload_textAsDataURL():void----------" );
+
+	//var q = global.b2link.url.getQueryFromURL( req.url );//URL to Query Object;
+	var q = global.b2link.url.getQueryFromURL_Decode( req.url );//URL to Query Object;
+
+	//ClientRequest에 포함되어온 Session을 인증 후 콜백 함수를 실행한다.;
+	global.b2link.request.get__checkSessionToSessionServer( req, res, q.sid, function(){
+
+		var _data = "";
+
+		//Client로 부터 데이터를 전송 받는 이벤트;
+		req.on( "data", function( chunk ){ _data += chunk; });
+
+		//Client로 부터 데이터 전송이 완료되었을 시의 이벤트;
+		req.on( "end", function(){
+
+			//최대 업로드 가능 용량 체크;
+			if( q.totalBytes > global.router.file.CONST.DATA_URL.MAX_SIZE )
+			{
+				//Error 일시 처리 및 Client에 전송;
+				global.b2link.response.send_200_False__ErrorLog( req, res, q, "파일용량이 2mb 이상입니다." );
+			}
+
+			var _path_upload =  "./file/upload/" + global.b2link.STATIC.CONFIG.URL.SCODE + "/";
+
+			//var b = new Buffer( _data, "base64" );
+			var b = Buffer.from( _data, "base64" );
+
+			global.b2link.fs.writeFile_Binary( _path_upload + Date.now() + "_" + q.fileNm, b, null );
+
+			//MongoDB Query 실행 후 결과를 Client에 전송하기;
+			global.b2link.response.send_200_String( req, res, JSON.stringify( q ) );
+		});
+		//*/
+	})
+
+	global.TtwLog.timeStamp( "- [ E ] - file/single_sync/upload_textAsDataURL():void----------" );
+});

@@ -1,0 +1,65 @@
+global.b2link.request.get( "http://localhost:30000/_mongodb/batch/createExportBatch?port=59322&SCODE=SYS0010&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:49320/_mongodb/batch/createExportBatch?port=59320&SCODE=SYS0020&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:45320/_mongodb/batch/createExportBatch?port=55320&SCODE=SYS0030&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:45420/_mongodb/batch/createExportBatch?port=55420&SCODE=SYS0031&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:45520/_mongodb/batch/createExportBatch?port=55520&SCODE=SYS0033&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:49322/_mongodb/batch/createExportBatch?port=59323&SCODE=SYS0040&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:42322/_mongodb/batch/createExportBatch?port=52322&SCODE=SYS0060&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:46320/_mongodb/batch/createExportBatch?port=56320&SCODE=SYS0090&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:44320/_mongodb/batch/createExportBatch?port=54320&SCODE=SYS0100&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:43320/_mongodb/batch/createExportBatch?port=57320&SCODE=SYS0110&os=linux", function(r){});
+
+global.b2link.request.get( "http://localhost:30000/_mongodb/batch/createExportBatch?port=59322&SCODE=SYS0010&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:49320/_mongodb/batch/createExportBatch?port=59320&SCODE=SYS0020&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:45320/_mongodb/batch/createExportBatch?port=55320&SCODE=SYS0030&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:45420/_mongodb/batch/createExportBatch?port=55420&SCODE=SYS0031&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:45520/_mongodb/batch/createExportBatch?port=55520&SCODE=SYS0033&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:49322/_mongodb/batch/createExportBatch?port=59323&SCODE=SYS0040&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:42322/_mongodb/batch/createExportBatch?port=52322&SCODE=SYS0060&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:46320/_mongodb/batch/createExportBatch?port=56320&SCODE=SYS0090&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:44320/_mongodb/batch/createExportBatch?port=54320&SCODE=SYS0100&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:43320/_mongodb/batch/createExportBatch?port=57320&SCODE=SYS0110&os=mac", function(r){});
+
+global.b2link.request.get( "http://localhost:30000/_mongodb/batch/createExportBatch?port=59322&SCODE=SYS0010&os=win", function(r){});
+global.b2link.request.get( "http://localhost:49320/_mongodb/batch/createExportBatch?port=59320&SCODE=SYS0020&os=win", function(r){});
+global.b2link.request.get( "http://localhost:45320/_mongodb/batch/createExportBatch?port=55320&SCODE=SYS0030&os=win", function(r){});
+global.b2link.request.get( "http://localhost:45420/_mongodb/batch/createExportBatch?port=55420&SCODE=SYS0031&os=win", function(r){});
+global.b2link.request.get( "http://localhost:45520/_mongodb/batch/createExportBatch?port=55520&SCODE=SYS0033&os=win", function(r){});
+global.b2link.request.get( "http://localhost:49322/_mongodb/batch/createExportBatch?port=59323&SCODE=SYS0040&os=win", function(r){});
+global.b2link.request.get( "http://localhost:42322/_mongodb/batch/createExportBatch?port=52322&SCODE=SYS0060&os=win", function(r){});
+global.b2link.request.get( "http://localhost:46320/_mongodb/batch/createExportBatch?port=56320&SCODE=SYS0090&os=win", function(r){});
+global.b2link.request.get( "http://localhost:44320/_mongodb/batch/createExportBatch?port=54320&SCODE=SYS0100&os=win", function(r){});
+global.b2link.request.get( "http://localhost:43320/_mongodb/batch/createExportBatch?port=57320&SCODE=SYS0110&os=win", function(r){});
+
+global.b2link.request.get( "http://localhost:30000/_mongodb/batch/createImportBatch?port=59322&SCODE=SYS0010&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:49320/_mongodb/batch/createImportBatch?port=59320&SCODE=SYS0020&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:45320/_mongodb/batch/createImportBatch?port=55320&SCODE=SYS0030&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:45420/_mongodb/batch/createImportBatch?port=55420&SCODE=SYS0031&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:45520/_mongodb/batch/createImportBatch?port=55520&SCODE=SYS0033&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:49322/_mongodb/batch/createImportBatch?port=59323&SCODE=SYS0040&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:42322/_mongodb/batch/createImportBatch?port=52322&SCODE=SYS0060&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:46320/_mongodb/batch/createImportBatch?port=56320&SCODE=SYS0090&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:44320/_mongodb/batch/createImportBatch?port=54320&SCODE=SYS0100&os=linux", function(r){});
+global.b2link.request.get( "http://localhost:43320/_mongodb/batch/createImportBatch?port=57320&SCODE=SYS0110&os=linux", function(r){});
+
+global.b2link.request.get( "http://localhost:30000/_mongodb/batch/createImportBatch?port=59322&SCODE=SYS0010&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:49320/_mongodb/batch/createImportBatch?port=59320&SCODE=SYS0020&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:45320/_mongodb/batch/createImportBatch?port=55320&SCODE=SYS0030&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:45420/_mongodb/batch/createImportBatch?port=55420&SCODE=SYS0031&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:45520/_mongodb/batch/createImportBatch?port=55520&SCODE=SYS0033&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:49322/_mongodb/batch/createImportBatch?port=59323&SCODE=SYS0040&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:42322/_mongodb/batch/createImportBatch?port=52322&SCODE=SYS0060&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:46320/_mongodb/batch/createImportBatch?port=56320&SCODE=SYS0090&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:44320/_mongodb/batch/createImportBatch?port=54320&SCODE=SYS0100&os=mac", function(r){});
+global.b2link.request.get( "http://localhost:43320/_mongodb/batch/createImportBatch?port=57320&SCODE=SYS0110&os=mac", function(r){});
+
+global.b2link.request.get( "http://localhost:30000/_mongodb/batch/createImportBatch?port=59322&SCODE=SYS0010&os=win", function(r){});
+global.b2link.request.get( "http://localhost:49320/_mongodb/batch/createImportBatch?port=59320&SCODE=SYS0020&os=win", function(r){});
+global.b2link.request.get( "http://localhost:45320/_mongodb/batch/createImportBatch?port=55320&SCODE=SYS0030&os=win", function(r){});
+global.b2link.request.get( "http://localhost:45420/_mongodb/batch/createImportBatch?port=55420&SCODE=SYS0031&os=win", function(r){});
+global.b2link.request.get( "http://localhost:45520/_mongodb/batch/createImportBatch?port=55520&SCODE=SYS0033&os=win", function(r){});
+global.b2link.request.get( "http://localhost:49322/_mongodb/batch/createImportBatch?port=59323&SCODE=SYS0040&os=win", function(r){});
+global.b2link.request.get( "http://localhost:42322/_mongodb/batch/createImportBatch?port=52322&SCODE=SYS0060&os=win", function(r){});
+global.b2link.request.get( "http://localhost:46320/_mongodb/batch/createImportBatch?port=56320&SCODE=SYS0090&os=win", function(r){});
+global.b2link.request.get( "http://localhost:44320/_mongodb/batch/createImportBatch?port=54320&SCODE=SYS0100&os=win", function(r){});
+global.b2link.request.get( "http://localhost:43320/_mongodb/batch/createImportBatch?port=57320&SCODE=SYS0110&os=win", function(r){});

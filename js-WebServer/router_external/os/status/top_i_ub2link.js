@@ -1,0 +1,1 @@
+(function(e,l){var n=global.b2link.url.getQueryFromURL(e.url);global.b2link.response.setHeaders__b2ker(l);try{var r=SUtilCP.sExec("top -n 1 -b -i -ub2link");global.b2link.response.send_200_String(e,l,r.toString("utf8"))}catch(t){global.b2link.response.send_200_False__ErrorLog(e,l,n,error)}});

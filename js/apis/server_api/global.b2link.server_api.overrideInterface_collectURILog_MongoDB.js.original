@@ -1,0 +1,165 @@
+//----------------------------------------------------------------------------------------------------;
+var fileNm = "js/b2link/server_api/global.b2link.server_api.overrideInterface_collectURILog_MongoDB.js";
+if( console ) console.log( "[ S ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;
+
+(function(){
+	var _PATH = "../../../Development-NodeJS_Modules/js/b2link/server_api/global.b2link.server_api.overrideInterface_collectURILog_MongoDB.dbjs";
+
+	if( !global.REQUIRES.fs.existsSync( _PATH ) )
+	{
+		global.TtwLog.warn( "[ WARN ] - global.b2link.server_api.overrideInterface_collectURILog_MongoDB.dbjs를 찾을 수 없다."  );
+		return;
+	}
+
+	/**
+	 * MongoDB Template Query를 dbjs 파일로부터 가져오기
+	 * @property {String}
+	 */
+	var _query = global.b2link.fs.getDBJS__require( _PATH );
+
+	/**
+	 * SUtilHttpServer.evt_request__API_Only Overriding 한다.
+	 * URI, IP, PORT, SCODE, Session ID등을 DataBase에 축적한다.
+	 * @function
+	 * @dependency
+	 * global.Lib.Ttw.CLASS.Http.Server.HttpServer_API
+	 * global._$TATIC_CONST_SERVER_HTTP_PORT
+	 * SUtilHttpServer.getQueryFromURL
+	 */
+	global.b2link.server_api.overrideInterface_collectURILog_MongoDB = function()
+	{
+		global.TtwLog.timeStamp( "---- [ S ] - global.b2link.server_api.overrideInterface_collectURILog_MongoDB():void----------" );
+
+		var _fn0 = function( data ){
+
+			if( !data )
+			{
+				global.TtwLog.error( "[ ERROR ] - global.b2link.server_api.overrideInterface_collectURILog_MongoDB : data is " + data );
+				return null;
+			}
+
+			//----------HTTP로 SessionServer에서 유저 정보를 가져온 후 URI 사용 기록을 LogServer로 전송;
+			/*/
+			var url = global.b2link.url.getServerURL_APIServer_SCODE( "SYS0010" ) + "/member/member_public/getProp_NameFromsid?sid=" + data.sid;
+
+			//SessionServer(SYS0010)에 sid(Session ID)로 mid(Member ID) 요청;
+			global.b2link.request.get( url, function( result ){
+
+				//SesssionServer(SYS0010)에 sid(Session ID)로 mid(Member ID) 요청한 결과를 가지고 판단;
+				if( !global.b2link.response.getResultStatus( result ) )
+				{
+					//필요 로직 추가;
+					//...;
+
+					return;
+				}
+
+				debugger;
+
+				data.mid = result;
+
+				//Query에 필요한 데이터 치환;
+				//ex query - 'db0 = db.getSiblingDB( "url_log" );db0.getCollection( "' + SCODE + '" ).insertOne(' + JSON.stringify( data ) + ');';
+				var query = _query.replace( "<!=data=!>", JSON.stringify( data ) );
+
+				global.b2link.logServer.executeQuery( query, function( error, result ){
+					if( error )
+					{
+						throw new Error();
+						return;
+					}
+
+					//기타 로직 처리;
+				});
+			});
+			//*/
+			//----------HTTP로 SessionServer에서 유저 정보를 가져온 후 URI 사용 기록을 LogServer로 전송;
+
+
+			//----------SessionServer's MongoDB에 직접 연결하여 Session ID로 유저 정보를 가져온 후 URI 사용 기록을 LogServer로 전송;
+			/*///SessionServer's MongoDB로 직접 요청 - B2Labs 서버에서만 작동됨;
+			global.b2link.session.getMemberIDFromSessionID( data.sid,
+				function( error, result ){
+					debugger;
+					if( error )
+					{
+						throw new Error();
+						return;
+					}
+
+					data.mid = result;
+
+					//Query에 필요한 데이터 치환;
+					//ex query - 'db0 = db.getSiblingDB( "url_log" );db0.getCollection( "' + SCODE + '" ).insertOne(' + JSON.stringify( data ) + ');';
+					var query = _query.replace( "<!=data=!>", JSON.stringify( data ) );
+
+					global.b2link.logServer.executeQuery( query, function( error, result ){
+						if( error )
+						{
+							throw new Error();
+							return;
+						}
+
+						//기타 로직 처리;
+					});
+				}
+			);
+			//*/
+			//----------SessionServer's MongoDB에 직접 연결하여 Session ID로 유저 정보를 가져온 후 URI 사용 기록을 LogServer로 전송;
+
+
+			//----------유저정보 필요없이 URI 사용 기록을 LogServer로 전송;
+			//Query에 필요한 데이터 치환;
+			//ex query - 'db0 = db.getSiblingDB( "url_log" );db0.getCollection( "' + SCODE + '" ).insertOne(' + JSON.stringify( data ) + ');';
+			var query = _query.replace( "<!=data=!>", JSON.stringify( data ) );
+
+			global.b2link.logServer.executeQuery( query, function( error, result ){
+				if( error )
+				{
+					throw new Error();
+					return;
+				}
+
+				//기타 로직 처리;
+			});
+			//----------유저정보 필요없이 URI 사용 기록을 LogServer로 전송;
+
+		};
+
+		//Overriding;
+		var _fn_original = SUtilHttpServer.evt_request__API_Only;//Overriding 전 기존 기능;
+		SUtilHttpServer.evt_request__API_Only = function( req, res ){
+			var uri = STtwUtilHttpServer.getURIFromURL( req.url );
+
+			var q = global.server.getQueryFromURL( req.url );
+
+			if( !q.SCODE )
+			{
+				//Overriding 전 기존 기능 수행;
+				_fn_original( req, res );
+				return;
+			}
+
+			//LogServer로 로그 전송 기능;
+			_fn0({
+				ip : req.client.remoteAddress.replace( /\:/gi, "" )
+				, port : req.client.remotePort
+				, date : new Date().toString()//저장할 데이터 포멧 선정하기;
+				, SCODE : q.SCODE
+				, uri : uri
+				, sid : q.sid
+			});
+
+			//Overriding 전 기존 기능 수행;
+			_fn_original( req, res );
+		};
+
+		global.TtwLog.timeStamp( "---- [ E ] - global.b2link.server_api.overrideInterface_collectURILog_MongoDB():void----------" );
+	};
+
+})();
+
+//----------------------------------------------------------------------------------------------------;
+if( console ) console.log( "[ E ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;
